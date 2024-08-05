@@ -18,6 +18,7 @@ import (
 	"github.com/go-git/go-git/v5/plumbing/protocol/packp/capability"
 	"github.com/go-git/go-git/v5/plumbing/transport"
 	"github.com/go-git/go-git/v5/plumbing/transport/http"
+	"github.com/go-git/go-git/v5/storage/memory"
 	"gopkg.in/ini.v1"
 )
 
@@ -45,6 +46,36 @@ type Service struct {
 	GitConfigFileName string
 	LogWriter         io.Writer
 	OpenRepository    *git.Repository
+}
+
+func (s *Service) FindBranchByCommit(project *project.Project, auth *http.BasicAuth) (string, error) {
+	repo, err := git.Clone(memory.NewStorage(), nil, &git.CloneOptions{
+		URL:  project.Repository.Url,
+		Auth: auth,
+	})
+	if err != nil {
+		return "", err
+	}
+	remote, err := repo.Remote("origin")
+	if err != nil {
+		return "", err
+	}
+	refList, err := remote.List(&git.ListOptions{})
+	if err != nil {
+		return "", err
+	}
+	refPrefix := "refs/heads/"
+	branchName := ""
+	for _, ref := range refList {
+		refName := ref.Name().String()
+		if !strings.HasPrefix(refName, refPrefix) {
+			continue
+		}
+		if project.Repository.Sha == ref.Hash().String() {
+			branchName = ref.Name().Short()
+		}
+	}
+	return branchName, nil
 }
 
 func (s *Service) CloneRepository(project *project.Project, auth *http.BasicAuth) error {
