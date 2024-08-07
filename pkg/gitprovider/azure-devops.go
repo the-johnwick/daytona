@@ -287,6 +287,38 @@ func (g *AzureDevOpsGitProvider) GetUrlFromRepository(repo *GitRepository) strin
 	return url
 }
 
+func (g *AzureDevOpsGitProvider) GetBranchByCommit(staticContext *StaticGitContext) (string, error) {
+	if staticContext.Sha == nil || *staticContext.Sha == "" {
+		return *staticContext.Branch, nil
+	}
+
+	client, err := g.getGitClient()
+	if err != nil {
+		return "", err
+	}
+
+	branches, err := client.GetBranches(context.Background(), git.GetBranchesArgs{
+		RepositoryId: &staticContext.Id,
+	})
+	if err != nil {
+		return "", err
+	}
+
+	var branchName string
+	for _, branch := range *branches {
+		if *branch.Commit.CommitId == *staticContext.Sha {
+			branchName = *branch.Name
+			break
+		}
+	}
+
+	if branchName == "" {
+		return "", fmt.Errorf("branch not found for SHA: %s", *staticContext.Sha)
+	}
+
+	return branchName, nil
+}
+
 func (g *AzureDevOpsGitProvider) getPrContext(staticContext *StaticGitContext) (*StaticGitContext, error) {
 	var pullRequestId int
 	if staticContext.PrNumber == nil {

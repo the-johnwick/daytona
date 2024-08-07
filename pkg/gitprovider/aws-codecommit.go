@@ -316,7 +316,7 @@ func (g *AwsCodeCommitGitProvider) GetBranchByCommit(staticContext *StaticGitCon
 			BranchName:     aws.String(branch),
 		})
 		if err != nil {
-			log.Fatalf("failed to get branch info for %s, %v", branch, err)
+			log.Infof("failed to get branch info for %s, %v", branch, err)
 			continue
 		}
 

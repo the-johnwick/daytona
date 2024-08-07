@@ -97,6 +97,33 @@ func (g *GitnessGitProvider) GetRepoBranches(repositoryId string, namespaceId st
 	return branches, nil
 }
 
+func (g *GitnessGitProvider) GetBranchByCommit(staticContext *StaticGitContext) (string, error) {
+	if staticContext.Sha != nil || *staticContext.Sha == "" {
+		return *staticContext.Branch, nil
+	}
+
+	client := g.getApiClient()
+
+	response, err := client.GetRepoBranches(staticContext.Name, staticContext.Owner)
+	if err != nil {
+		return "", fmt.Errorf("failed to fetch Branches: %w", err)
+	}
+
+	var branchName string
+	for _, branch := range response {
+		if *staticContext.Sha == branch.Sha {
+			branchName = branch.Name
+			break
+		}
+	}
+
+	if branchName == "" {
+		return "", fmt.Errorf("branch not found for SHA: %s", *staticContext.Sha)
+	}
+
+	return branchName, nil
+}
+
 func (g *GitnessGitProvider) GetRepoPRs(repositoryId string, namespaceId string) ([]*GitPullRequest, error) {
 	client := g.getApiClient()
 	response, err := client.GetRepoPRs(repositoryId, namespaceId)

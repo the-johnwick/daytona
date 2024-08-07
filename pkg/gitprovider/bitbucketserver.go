@@ -353,6 +353,43 @@ func (g *BitbucketServerGitProvider) getPrContext(staticContext *StaticGitContex
 	return &repo, nil
 }
 
+func (g *BitbucketServerGitProvider) GetBranchByCommit(staticContext *StaticGitContext) (string, error) {
+	if staticContext.Sha == nil || *staticContext.Sha == "" {
+		return *staticContext.Branch, nil
+	}
+
+	client, err := g.getApiClient()
+	if err != nil {
+		return "", err
+	}
+
+	branches, err := client.DefaultApi.GetBranches(staticContext.Owner, staticContext.Name, nil)
+	if err != nil {
+		return "", err
+	}
+
+	branchList, err := bitbucketv1.GetBranchesResponse(branches)
+	if err != nil {
+		return "", err
+	}
+
+	var branchName string
+	for _, branch := range branchList {
+
+		if branch.LatestCommit == *staticContext.Sha {
+			branchName = branch.DisplayID
+			break
+		}
+
+	}
+
+	if branchName == "" {
+		return "", fmt.Errorf("branch not found for SHA: %s", *staticContext.Sha)
+	}
+
+	return branchName, nil
+}
+
 func (g *BitbucketServerGitProvider) parseStaticGitContext(repoUrl string) (*StaticGitContext, error) {
 	var staticContext StaticGitContext
 
