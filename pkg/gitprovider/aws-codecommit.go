@@ -60,6 +60,7 @@ func (g *AwsCodeCommitGitProvider) GetNamespaces() ([]*GitNamespace, error) {
 
 	return namespaces, nil
 }
+
 func (g *AwsCodeCommitGitProvider) GetUrlFromRepository(repository *GitRepository) string {
 	baseURL := ""
 	if strings.Contains(repository.Source, "git-codecommit") {
