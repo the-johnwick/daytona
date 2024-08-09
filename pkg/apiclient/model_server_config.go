@@ -19,22 +19,22 @@ var _ MappedNullable = &ServerConfig{}
 
 // ServerConfig struct for ServerConfig
 type ServerConfig struct {
-	ApiPort                   *int32      `json:"apiPort,omitempty"`
-	BinariesPath              *string     `json:"binariesPath,omitempty"`
-	BuildImageNamespace       *string     `json:"buildImageNamespace,omitempty"`
-	BuilderImage              *string     `json:"builderImage,omitempty"`
-	BuilderRegistryServer     *string     `json:"builderRegistryServer,omitempty"`
-	DefaultProjectImage       *string     `json:"defaultProjectImage,omitempty"`
-	DefaultProjectUser        *string     `json:"defaultProjectUser,omitempty"`
-	Frps                      *FRPSConfig `json:"frps,omitempty"`
-	HeadscalePort             *int32      `json:"headscalePort,omitempty"`
-	Id                        *string     `json:"id,omitempty"`
-	LocalBuilderRegistryImage *string     `json:"localBuilderRegistryImage,omitempty"`
-	LocalBuilderRegistryPort  *int32      `json:"localBuilderRegistryPort,omitempty"`
-	LogFilePath               *string     `json:"logFilePath,omitempty"`
-	ProvidersDir              *string     `json:"providersDir,omitempty"`
-	RegistryUrl               *string     `json:"registryUrl,omitempty"`
-	ServerDownloadUrl         *string     `json:"serverDownloadUrl,omitempty"`
+	ApiPort *int32 `json:"apiPort,omitempty"`
+	BinariesPath *string `json:"binariesPath,omitempty"`
+	BuildImageNamespace *string `json:"buildImageNamespace,omitempty"`
+	BuilderImage *string `json:"builderImage,omitempty"`
+	BuilderRegistryServer *string `json:"builderRegistryServer,omitempty"`
+	DefaultProjectImage *string `json:"defaultProjectImage,omitempty"`
+	DefaultProjectUser *string `json:"defaultProjectUser,omitempty"`
+	Frps *FRPSConfig `json:"frps,omitempty"`
+	HeadscalePort *int32 `json:"headscalePort,omitempty"`
+	Id *string `json:"id,omitempty"`
+	LocalBuilderRegistryImage *string `json:"localBuilderRegistryImage,omitempty"`
+	LocalBuilderRegistryPort *int32 `json:"localBuilderRegistryPort,omitempty"`
+	LogFilePath *string `json:"logFilePath,omitempty"`
+	ProvidersDir *string `json:"providersDir,omitempty"`
+	RegistryUrl *string `json:"registryUrl,omitempty"`
+	ServerDownloadUrl *string `json:"serverDownloadUrl,omitempty"`
 }
 
 // NewServerConfig instantiates a new ServerConfig object
@@ -567,7 +567,7 @@ func (o *ServerConfig) SetServerDownloadUrl(v string) {
 }
 
 func (o ServerConfig) MarshalJSON() ([]byte, error) {
-	toSerialize, err := o.ToMap()
+	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -662,3 +662,5 @@ func (v *NullableServerConfig) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

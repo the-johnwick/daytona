@@ -127,6 +127,8 @@ definitions:
     properties:
       branch:
         type: string
+      clonetarget:
+        $ref: '#/definitions/gitprovider.CloneTarget'
       id:
         type: string
       name:
@@ -388,6 +390,14 @@ definitions:
     - ApiKeyTypeClient
     - ApiKeyTypeProject
     - ApiKeyTypeWorkspace
+  gitprovider.CloneTarget:
+    enum:
+    - branch
+    - commit
+    type: string
+    x-enum-varnames:
+    - CloneTargetBranch
+    - CloneTargetCommit
   provider.ProviderInfo:
     properties:
       name:

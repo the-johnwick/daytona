@@ -19,12 +19,12 @@ var _ MappedNullable = &CreateProjectConfigDTO{}
 
 // CreateProjectConfigDTO struct for CreateProjectConfigDTO
 type CreateProjectConfigDTO struct {
-	BuildConfig *ProjectBuildConfig           `json:"buildConfig,omitempty"`
-	EnvVars     *map[string]string            `json:"envVars,omitempty"`
-	Image       *string                       `json:"image,omitempty"`
-	Name        *string                       `json:"name,omitempty"`
-	Source      *CreateProjectConfigSourceDTO `json:"source,omitempty"`
-	User        *string                       `json:"user,omitempty"`
+	BuildConfig *ProjectBuildConfig `json:"buildConfig,omitempty"`
+	EnvVars *map[string]string `json:"envVars,omitempty"`
+	Image *string `json:"image,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Source *CreateProjectConfigSourceDTO `json:"source,omitempty"`
+	User *string `json:"user,omitempty"`
 }
 
 // NewCreateProjectConfigDTO instantiates a new CreateProjectConfigDTO object
@@ -237,7 +237,7 @@ func (o *CreateProjectConfigDTO) SetUser(v string) {
 }
 
 func (o CreateProjectConfigDTO) MarshalJSON() ([]byte, error) {
-	toSerialize, err := o.ToMap()
+	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -302,3 +302,5 @@ func (v *NullableCreateProjectConfigDTO) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

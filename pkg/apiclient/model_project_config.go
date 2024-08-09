@@ -20,12 +20,12 @@ var _ MappedNullable = &ProjectConfig{}
 // ProjectConfig struct for ProjectConfig
 type ProjectConfig struct {
 	BuildConfig *ProjectBuildConfig `json:"buildConfig,omitempty"`
-	Default     *bool               `json:"default,omitempty"`
-	EnvVars     *map[string]string  `json:"envVars,omitempty"`
-	Image       *string             `json:"image,omitempty"`
-	Name        *string             `json:"name,omitempty"`
-	Repository  *GitRepository      `json:"repository,omitempty"`
-	User        *string             `json:"user,omitempty"`
+	Default *bool `json:"default,omitempty"`
+	EnvVars *map[string]string `json:"envVars,omitempty"`
+	Image *string `json:"image,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Repository *GitRepository `json:"repository,omitempty"`
+	User *string `json:"user,omitempty"`
 }
 
 // NewProjectConfig instantiates a new ProjectConfig object
@@ -270,7 +270,7 @@ func (o *ProjectConfig) SetUser(v string) {
 }
 
 func (o ProjectConfig) MarshalJSON() ([]byte, error) {
-	toSerialize, err := o.ToMap()
+	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -338,3 +338,5 @@ func (v *NullableProjectConfig) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+
