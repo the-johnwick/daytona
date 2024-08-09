@@ -3,7 +3,7 @@ info:
   contact: {}
   description: Daytona Server API
   title: Daytona Server API
-  version: 0.24.0
+  version: v0.0.0-dev
 servers:
 - url: http://localhost:3986/
 security:
@@ -192,7 +192,7 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/RepositoryUrl'
           description: OK
       summary: Get URL from Git repository
       tags:
@@ -1474,6 +1474,13 @@ components:
     ProviderTargetManifest:
       additionalProperties:
         $ref: '#/components/schemas/provider.ProviderTargetProperty'
+      type: object
+    RepositoryUrl:
+      example:
+        url: url
+      properties:
+        url:
+          type: string
       type: object
     ServerConfig:
       example:

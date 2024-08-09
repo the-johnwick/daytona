@@ -279,6 +279,11 @@ definitions:
     additionalProperties:
       $ref: '#/definitions/provider.ProviderTargetProperty'
     type: object
+  RepositoryUrl:
+    properties:
+      url:
+        type: string
+    type: object
   ServerConfig:
     properties:
       apiPort:
@@ -452,7 +457,7 @@ info:
   contact: {}
   description: Daytona Server API
   title: Daytona Server API
-  version: 0.24.0
+  version: v0.0.0-dev
 paths:
   /apikey:
     get:
@@ -799,7 +804,7 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/RepositoryUrl'
       summary: Get URL from Git repository
       tags:
       - gitProvider

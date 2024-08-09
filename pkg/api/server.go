@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 //	@title			Daytona Server API
-//	@version		0.24.0
+//	@version		v0.0.0-dev
 //	@description	Daytona Server API
 
 //	@host		localhost:3986
@@ -78,6 +78,11 @@ func (a *ApiServer) Start() error {
 	docs.SwaggerInfo.BasePath = "/"
 	docs.SwaggerInfo.Description = "Daytona Server API"
 	docs.SwaggerInfo.Title = "Daytona Server API"
+
+	_, err := net.Dial("tcp", fmt.Sprintf(":%d", a.apiPort))
+	if err == nil {
+		return fmt.Errorf("cannot start API server, port %d is already in use", a.apiPort)
+	}
 
 	binding.Validator = new(defaultValidator)
 
